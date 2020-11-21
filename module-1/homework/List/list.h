@@ -4,6 +4,24 @@
 
 namespace task {
 
+class Node {
+    
+    public:
+
+    Node();
+    Node(const int& data_, Node* prev_, Node* next_);
+
+    ~Node();
+
+    friend class list;
+
+    private:
+
+    int data;
+    int num;
+    Node* prev;
+    Node* next;
+};
 
 class list {
 
@@ -43,7 +61,9 @@ public:
     // Your code goes here?..
 
 private:
-
+    Node* first;
+    Node* last;
+    size_t size_;
     // Your code goes here...
 
 };
