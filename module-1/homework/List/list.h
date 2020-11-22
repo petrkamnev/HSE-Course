@@ -18,7 +18,6 @@ class Node {
     private:
 
     int data;
-    int num;
     Node* prev;
     Node* next;
 };
@@ -29,6 +28,7 @@ public:
 
     list();
     list(size_t count, const int& value = int());
+    list(const list& other);
 
     ~list();
     list& operator=(const list& other);
@@ -58,14 +58,10 @@ public:
     void unique();
     void sort();
 
-    // Your code goes here?..
-
 private:
     Node* first;
     Node* last;
     size_t size_;
-    // Your code goes here...
-
 };
 
-}  // namespace task
+}  
