@@ -1,67 +1,57 @@
 #pragma once
 #include <cstddef>
 
-
 namespace task {
 
 class Node {
-    
-    public:
+ public:
+  Node();
+  Node(const int& data_, Node* prev_, Node* next_);
 
-    Node();
-    Node(const int& data_, Node* prev_, Node* next_);
+  ~Node();
 
-    ~Node();
+  friend class list;
 
-    friend class list;
-
-    private:
-
-    int data;
-    Node* prev;
-    Node* next;
+ private:
+  int data;
+  Node* prev;
+  Node* next;
 };
 
 class list {
+ public:
+  list();
+  list(size_t count, const int& value = int());
+  list(const list& other);
 
-public:
+  ~list();
+  list& operator=(const list& other);
 
-    list();
-    list(size_t count, const int& value = int());
-    list(const list& other);
+  int& front();
+  const int& front() const;
 
-    ~list();
-    list& operator=(const list& other);
+  int& back();
+  const int& back() const;
 
+  bool empty() const;
+  size_t size() const;
+  void clear();
 
-    int& front();
-    const int& front() const;
+  void push_back(const int& value);
+  void pop_back();
+  void push_front(const int& value);
+  void pop_front();
+  void resize(size_t count);
+  void swap(list& other);
 
-    int& back();
-    const int& back() const;
+  void remove(const int& value);
+  void unique();
+  void sort();
 
-
-    bool empty() const;
-    size_t size() const;
-    void clear();
-
-
-    void push_back(const int& value);
-    void pop_back();
-    void push_front(const int& value);
-    void pop_front();
-    void resize(size_t count);
-    void swap(list& other);
-
-
-    void remove(const int& value);
-    void unique();
-    void sort();
-
-private:
-    Node* first;
-    Node* last;
-    size_t size_;
+ private:
+  Node* first;
+  Node* last;
+  size_t size_;
 };
 
-}  
+}  // namespace task

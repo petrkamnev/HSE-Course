@@ -2,31 +2,20 @@
 
 namespace task {
 
-Node::Node() {
-  data = 0;
-  prev = nullptr;
-  next = nullptr;
-}
+Node::Node() : data(0), prev(nullptr), next(nullptr) {}
 
-Node::Node(const int& data_, Node* prev_, Node* next_) {
-  data = data_;
-  prev = prev_;
-  next = next_;
-}
+Node::Node(const int& data_, Node* prev_, Node* next_)
+    : data(data_), prev(prev_), next(next_) {}
 
 Node::~Node() = default;
 
-list::list() {
-  size_ = 0;
-  first = nullptr;
-  last = nullptr;
-}
+list::list() : size_(0), first(nullptr), last(nullptr) {}
 
 list::list(size_t count, const int& value) {
   size_ = 0;
   first = nullptr;
   last = nullptr;
-  for (int i = 0; i < count; i++) {
+  for (size_t i = 0; i < count; i++) {
     push_back(value);
   }
 }
@@ -94,6 +83,7 @@ void list::pop_back() {
   last = tmp;
   size_--;
 }
+
 void list::push_front(const int& value) {
   Node* tmp = new Node(value, nullptr, first);
   if (first) {
@@ -103,6 +93,7 @@ void list::push_front(const int& value) {
   size_++;
   if (size_ == 1) last = first;
 }
+
 void list::pop_front() {
   if (size_ == 1) {
     last = nullptr;
@@ -116,6 +107,7 @@ void list::pop_front() {
   first = tmp;
   size_--;
 }
+
 void list::resize(size_t count) {
   if (count < size_) {
     while (count != size_) {
@@ -127,8 +119,9 @@ void list::resize(size_t count) {
     }
   }
 }
+
 void list::swap(list& other) {
-  int tmp = size_;
+  size_t tmp = size_;
   size_ = other.size_;
   other.size_ = tmp;
   Node* tmp_ = first;
@@ -138,6 +131,7 @@ void list::swap(list& other) {
   last = other.last;
   other.last = tmp_;
 }
+
 void list::remove(const int& value) {
   int copy_value = value;
   Node* current = first;
@@ -164,6 +158,7 @@ void list::remove(const int& value) {
     current = next;
   }
 }
+
 void list::unique() {
   Node* current = first;
   while (current) {
@@ -189,7 +184,7 @@ void list::unique() {
 }
 
 void list::sort() {
-  for (int i = 0; i < size_; i++) {
+  for (size_t i = 0; i < size_; i++) {
     Node* current = first;
     while (current) {
       Node* next = current->next;
@@ -203,4 +198,4 @@ void list::sort() {
   }
 }
 
-}
+}  // namespace task
