@@ -1,9 +1,10 @@
 #pragma once
-#include "rectangle.h"
 #include "circle.h"
+#include "rectangle.h"
 
-class Square : public Rectangle{
-    Square(const Point& p1, const Point& p2);
-    Circle circumscribedCircle();
-    Circle inscribedCircle();
+class Square : public Rectangle {
+  Square() = default;
+  Square(const Point& p1, const Point& p2);
+  Circle circumscribedCircle();
+  Circle inscribedCircle();
 };
