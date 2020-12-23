@@ -4,6 +4,9 @@ include(GoogleTest)
 
 project("Geometry")
 
+set(CXX_STANDARD 17)
+set(CXX_STANDARD_REQUIRED ON)
+
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
