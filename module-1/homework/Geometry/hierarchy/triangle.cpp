@@ -1,7 +1,7 @@
 #include "triangle.h"
 
-Triangle::Triangle(const Point& a, const Point& b, const Point& c){
-    Polygon({a,b,c});
+Triangle::Triangle(const Point& a, const Point& b, const Point& c) {
+  vertices = {a, b, c};
 }
 
 Circle Triangle::inscribedCircle() {

@@ -19,7 +19,7 @@ Point Ellipse::__prod__(const Point& a, double k) const {
 }
 
 Ellipse::Ellipse(const Point& p1, const Point& p2, const double& sum_) {
-  focuses_ = std::make_pair(p1,p2);
+  focuses_ = std::make_pair(p1, p2);
   if (focuses_.first.x > focuses_.second.x + 1e-9 ||
       (abs(focuses_.first.x - focuses_.second.x) < 1e-9 &&
        focuses_.first.y > focuses_.second.y + 1e-9)) {
@@ -36,8 +36,7 @@ Point Ellipse::center() {
 }
 
 double Ellipse::eccentricity() const {
-  return __get__len__(__get__vector__(focuses_.first, focuses_.second)) /
-         (sum / 2);
+  return __get__len__(__get__vector__(focuses_.first, focuses_.second)) / sum;
 }
 
 std::pair<Line, Line> Ellipse::directrices() {
@@ -81,32 +80,49 @@ bool Ellipse::isSimilarTo(const Shape& another) {
 bool Ellipse::containsPoint(Point point) {
   return __get__len__(__get__vector__(point, focuses_.first)) +
              __get__len__(__get__vector__(point, focuses_.second)) <
-         sum - 1e-9;
+         sum + 1e-9;
 }
 void Ellipse::rotate(Point center, double angle) {
-  std::vector<Point&> tmp = {&focuses_.first, &focuses_.second};
-  for (Point& t : tmp) {
+  angle = angle / 180 * 3.1415926;
+  std::vector<Point*> tmp = {&(focuses_.first), &(focuses_.second)};
+  for (Point* t1 : tmp) {
+    Point& t = *t1;
     Point p = __get__vector__(center, t);
     p = Point(p.x * cos(angle) - p.y * sin(angle),
               p.x * sin(angle) + p.y * cos(angle));
-    t= __sum__(center, p);
+    t = __sum__(center, p);
   }
 }
-void Ellipse::reflex(Point center) {
-  rotate(center, 3.1415926);
+void Ellipse::reflex(Point center) { rotate(center, 3.1415926); }
+void Ellipse::reflex(Line axis) {
+  std::vector<Point*> tmp = {&(focuses_.first), &(focuses_.second)};
+  for (Point* t1 : tmp) {
+    Point& t = *t1;
+    double l = 2 * ((axis.get_a() * t.x + axis.get_b() * t.y + axis.get_c()) /
+                    sqrt(pow(axis.get_a(), 2) + pow(axis.get_b(), 2)));
+    Point tmp = __prod__(Point(axis.get_a(), axis.get_b()),
+                         -l / __get__len__(Point(axis.get_a(), axis.get_b())));
+    t = __sum__(t, tmp);
+  }
 }
-void Ellipse::reflex(Line axis){
- std::vector<Point&> tmp = {&focuses_.first, &focuses_.second};
-  for (Point& t : tmp) {
-        double l = 2*((axis.get_a()*t.x + axis.get_b()*t.y + axis.get_c())/sqrt(pow(axis.get_a(),2) + pow(axis.get_b(),2)));
-        Point tmp = __prod__(Point(axis.get_a(), axis.get_b()),-l/__get__len__(Point(axis.get_a(), axis.get_b())));
-        t = __sum__(t, tmp);
-    }
+
+void Ellipse::scale(Point center, double coefficient) {
+  std::vector<Point*> tmp = {&(focuses_.first), &(focuses_.second)};
+  for (Point* t1 : tmp) {
+    Point& t = *t1;
+    Point tmp = __get__vector__(center, t);
+    t = __sum__(center, __prod__(tmp, coefficient));
+  }
 }
-void Ellipse::scale(Point center, double coefficient){
-  std::vector<Point&> tmp = {&focuses_.first, &focuses_.second};
-  for (Point& t : tmp) {
-        Point tmp = __get__vector__(center, t);
-        t = __sum__(center, __prod__(tmp, coefficient/__get__len__(tmp)));
-    }
+
+double Ellipse::perimeter() {
+  double a = sum / 2;
+  double b = a * sqrt(1 - pow(eccentricity(), 2));
+  return 4 * (3.1415926 * a * b + (a - b) * (a - b)) / (a + b);
+}
+
+double Ellipse::area() {
+  double a = sum / 2;
+  double b = a * sqrt(1 - pow(eccentricity(), 2));
+  return 3.1415926 * a * b;
 }
